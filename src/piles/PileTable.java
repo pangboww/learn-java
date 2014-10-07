@@ -12,6 +12,11 @@ public class PileTable implements Pile {
         this.pile = new Table(n);
         this.current = -1;
     }
+    
+    public PileTable(PileTable p){
+    	 super();
+    	 this.pile = p.pile;
+    }
 
     @Override
 	public boolean empty() {
@@ -70,4 +75,9 @@ public class PileTable implements Pile {
         }
         return s;
     }
+
+	@Override
+	public int size() {
+		return this.pile.size();
+	}
 }

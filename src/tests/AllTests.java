@@ -7,13 +7,11 @@ import org.junit.runners.Suite.SuiteClasses;
 /**
  * Suite de tests
  * @author davidroussel
- *
  */
 @RunWith(Suite.class)
 @SuiteClasses(
 {
-	PileVectorTest.class,
-	PileTableTest.class
+	PileTest.class
 }
 )
 public class AllTests

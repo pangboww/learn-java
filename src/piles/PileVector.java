@@ -1,15 +1,27 @@
 package piles;
 
-import java.util.Objects;
 import java.util.Vector;
 
 public class PileVector implements Pile {
 
-	protected Vector<Object> pile;
+	public Vector<Object> pile;
 	
 	public PileVector(){
-		super();
 		this.pile = new Vector<Object>();
+	}
+	
+	public PileVector(Pile p){
+		Vector<Object> t = new Vector<Object>();
+		this.pile = new Vector<Object>();
+		for (int i=0;i<p.size();i++){
+			Object x = p.pop();
+			System.out.print(x);
+			t.add(x);
+		}
+		for (int i=t.size()-1;i>=0;i--){
+			this.push(t.elementAt(i));
+			p.push(t.elementAt(i));
+		}
 	}
 	
 	@Override
@@ -60,4 +72,18 @@ public class PileVector implements Pile {
         }
 		return s;
 	}
+
+	@Override
+	public int size() {
+		return this.pile.size();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o instanceof PileVector){
+			return true;
+		}
+		else return false;
+	}
+	
 }
