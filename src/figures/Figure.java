@@ -10,27 +10,27 @@ public class Figure {
     private Point2D centre;
     private Point2D[] points;
 
-    public void deplace(){
-
-    }
-
-    public boolean contient(Point2D p){
-
-    }
-
-    public String toString(){
-
-    }
-
-    public Point2D getCentre(){
-
-    }
-
-    public double distanceToCentre(Figure f){
-
-    }
-
-    public boolean equals(Figure f){
-
-    }
+//    public void deplace(){
+//
+//    }
+//
+//    public boolean contient(Point2D p){
+//
+//    }
+//
+//    public String toString(){
+//
+//    }
+//
+//    public Point2D getCentre(){
+//
+//    }
+//
+//    public double distanceToCentre(Figure f){
+//
+//    }
+//
+//    public boolean equals(Figure f){
+//
+//    }
 }
