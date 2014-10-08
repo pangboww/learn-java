@@ -12,11 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -265,6 +261,7 @@ public class PileTest
 	 * Test method for {@link piles.Pile#full()}.
 	 */
 	@Test(expected = OutOfMemoryError.class)
+    @Ignore
 	public final void testFull()
 	{
 		String testName = new String(typeName + ".full()");
@@ -295,6 +292,7 @@ public class PileTest
 	 * Test method for {@link piles.Pile#push(java.lang.Object)}.
 	 */
 	@Test(expected = OutOfMemoryError.class)
+    @Ignore
 	public final void testPush()
 	{
 		String testName = new String(typeName + ".push()");
