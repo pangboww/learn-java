@@ -86,13 +86,25 @@ public class simple {
         System.out.println(testName);
 
         liste.ajoute(elements[0]);
-        assertFalse(testName + "liste non vide failed", liste.estVide());
-        Iterator<String> it = liste.iterator();
-        String insertedElt = it.next();
-        System.out.println(insertedElt);
-        insertedElt = it.next();
-        System.out.println(insertedElt);
-        System.out.print("abcd"=="abcd");
+        liste.ajoute(elements[1]);
+        liste.ajoute(elements[2]);
+        liste.ajoute(elements[0]);
+
+        elements[3] = "Hello";
+
+
+        liste.ajoute(elements[0]);
+        liste.ajoute(elements[3]);
+        liste.ajoute(elements[0]);
+        liste.ajoute(elements[0]);
+
+
+        System.out.print(liste);
+        liste.supprimeTous(elements[0]);
+        System.out.print(liste);
+//        liste.supprimeTous(elements[3]);
+//        System.out.print(liste);
+
 
 
     }

@@ -97,11 +97,11 @@ public class Liste<E> implements IListe<E>{
 
         ListeIterator it = this.iterator();
         while (it.hasNext()){
-            if (it.element == elt) {
+            if (it.next() == elt) {
+                System.out.print(it.element);
                 it.remove();
                 return true;
             }
-            else it.next();
         }
         return false;
     }
@@ -109,11 +109,10 @@ public class Liste<E> implements IListe<E>{
     @Override
     public boolean supprimeTous(Object elt) {
         boolean flag = false;
-
-        while(true){
-            boolean result = this.supprime(elt);
-            if (result==false) break;
-            flag = true;
+        boolean result = true;
+        while(result){
+            result = this.supprime(elt);
+            if (result) flag = result;
         }
 
         return flag;
@@ -160,6 +159,17 @@ public class Liste<E> implements IListe<E>{
         }
 
         return "[" + s + "]";
+    }
+
+    @Override
+    public int hashCode(){
+        final int prime = 31;
+        int result = 1;
+        for( E i : this )
+        {
+            result = result * prime + i.hashCode();
+        }
+        return result;
     }
 
     @Override
@@ -228,6 +238,13 @@ public class Liste<E> implements IListe<E>{
             if (this.nextCalled = false) {
                 throw new IllegalStateException("remove : next not called yet");
             }
+//            this.last.setSuivant(null);
+//            this.last = this.penultimate;
+//            if(this.last != null) {
+//                this.last.setSuivant(this.current);
+//            }
+//
+//            this.nextCalled = false;
             else if(this.penultimate == null){
                 this.last.setSuivant(null);
                 Liste.this.tete = this.current;
