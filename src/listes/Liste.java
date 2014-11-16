@@ -1,11 +1,15 @@
-package lists;
+package listes;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class Liste<E> implements IListe<E> {
+/**
+ * Created by bopang on 16/11/14.
+ */
+public class Liste<E> implements IListe<E>{
 
     private Maillon<E> tete;
+    private ListeIterator itr;
 
     public Liste(){
         this.tete = null;
@@ -23,25 +27,10 @@ public class Liste<E> implements IListe<E> {
     }
 
     @Override
-    public ListeIterator iterator() {
-        return new ListeIterator();
-    }
-
-
-    @Override
-    public void efface() {
-        this.tete = null;
-    }
-
-    @Override
-    public boolean estVide() {
-        return this.tete == null;
-    }
-
-    @Override
-    public boolean ajoute(E e) {
-        Maillon<E> m = new Maillon<E>(e);
-        if(this.estVide()) this.tete = m;
+    public void ajoute(E elt) throws NullPointerException {
+        if (elt == null) throw new NullPointerException();
+        Maillon<E> m = new Maillon<E>(elt);
+        if (this.estVide()) this.tete = m;
         else {
             ListeIterator it = this.iterator();
             while (it.hasNext()) {
@@ -49,19 +38,17 @@ public class Liste<E> implements IListe<E> {
             }
             it.last.setSuivant(m);
         }
-        return true;
     }
 
     @Override
-    public boolean insere(E e) {
-        Maillon<E> m = new Maillon<E>(e);
+    public void insere(E elt) throws NullPointerException {
+        if (elt == null) throw new NullPointerException();
+        Maillon<E> m = new Maillon<E>(elt);
         if (this.estVide()) this.tete = m;
         else {
             m.setSuivant(this.tete);
             this.tete = m;
-            return true;
         }
-        return true;
     }
 
     private int longueur(){
@@ -76,9 +63,16 @@ public class Liste<E> implements IListe<E> {
     }
 
     @Override
-    public boolean insere(E e, int index) {
-        Maillon<E> m = new Maillon<E>(e);
+    public boolean insere(E elt, int index) throws NullPointerException{
+        if (elt == null) return false;
         if(index < 0 || index > this.longueur()) return false;
+
+        Maillon<E> m = new Maillon<E>(elt);
+        if(this.estVide()||index==0){
+            m.setSuivant(this.tete);
+            this.tete = m;
+            return true;
+        }
         ListeIterator it = this.iterator();
         int i = 0;
         while (i != index){
@@ -86,16 +80,24 @@ public class Liste<E> implements IListe<E> {
             it.next();
         }
         m.setSuivant(it.current);
-        it.last.setSuivant(m);
+        if(it.last != null) it.last.setSuivant(m);
         return true;
     }
 
     @Override
-    public boolean supprime(E e) {
+    public boolean supprime(Object elt) {
+        if (elt==null||this.estVide()) {
+            return false;
+        }
+
+        if (this.tete.getDonnee()==elt){
+            this.tete = this.tete.getSuivant();
+            return true;
+        }
+
         ListeIterator it = this.iterator();
         while (it.hasNext()){
-            if (it.element == e) {
-                it.next();
+            if (it.element == elt) {
                 it.remove();
                 return true;
             }
@@ -105,16 +107,64 @@ public class Liste<E> implements IListe<E> {
     }
 
     @Override
-    public boolean supprimeTous(E e) {
-        ListeIterator it = this.iterator();
-        while (it.hasNext()){
-            if (it.element == e) {
-                it.next();
-                it.remove();
+    public boolean supprimeTous(Object elt) {
+        boolean flag = false;
+
+        while(true){
+            boolean result = this.supprime(elt);
+            if (result==false) break;
+            flag = true;
+        }
+
+        return flag;
+    }
+
+    @Override
+    public void efface() {
+        this.tete = null;
+    }
+
+    @Override
+    public boolean estVide() {
+        return this.tete == null;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof Iterable)) return false;
+        Iterator it1 = this.iterator();
+        Iterator it2 = ((Iterable) o).iterator();
+        while (true){
+            if(it1.hasNext()){
+                if (it2.hasNext()){
+                    if(it1.next()!=it2.next()) return false;
+                }
+                else return false;
             }
-            else it.next();
+            else {
+                if (it2.hasNext()) return false;
+                else break;
+            }
         }
         return true;
+    }
+
+    @Override
+    public String toString(){
+        String s = "";
+        for(E i : this){
+            s = s + i + "->";
+        }
+        if (s.length()>2){
+            s = s.substring(0,s.length()-2);
+        }
+
+        return "[" + s + "]";
+    }
+
+    @Override
+    public ListeIterator iterator() {
+        return new ListeIterator();
     }
 
     private static class Maillon<E> {
@@ -139,7 +189,7 @@ public class Liste<E> implements IListe<E> {
         }
     }
 
-    private class ListeIterator implements Iterator<E>{
+    public class ListeIterator implements Iterator<E>{
 
         private Liste.Maillon<E> current;
         private E element;
@@ -152,29 +202,22 @@ public class Liste<E> implements IListe<E> {
             this.last = null;
             this.penultimate = null;
             this.nextCalled = false;
-            if (this.current == null){
-                this.element = null;
-            }
-            else {
-                this.element = this.current.donne;
-            }
-
-
+            this.element = null;
         }
 
         @Override
         public boolean hasNext() {
-            return this.current.suivant != null;
+            return (this.current != null);
         }
 
         @Override
         public E next() {
-            if (!this.hasNext()) return null;
+            if (!this.hasNext()) throw new NoSuchElementException();
             else {
                 this.penultimate = this.last;
                 this.last = this.current;
                 this.current = this.current.getSuivant();
-                this.element = this.current.donne;
+                this.element = this.last.getDonnee();
                 this.nextCalled = true;
                 return this.element;
             }
@@ -201,6 +244,4 @@ public class Liste<E> implements IListe<E> {
         }
 
     }
-
 }
-

@@ -1,36 +1,77 @@
 package figures;
 
-/**
- * Created by bopang on 06/10/14.
- */
 import points.Point2D;
 
-public class Figure {
-    private String nom;
-    private Point2D centre;
-    private Point2D[] points;
+/**
+ * Interface des figures
+ * @author davidroussel
+ */
+public interface Figure extends Cloneable
+{
+	/**
+	 * Accesseur en lecture pour le nom de la figure
+	 * @return une chaine contenant le nom de la figure
+	 */
+	public abstract String getNom();
 
-//    public void deplace(){
-//
-//    }
-//
-//    public boolean contient(Point2D p){
-//
-//    }
-//
-//    public String toString(){
-//
-//    }
-//
-//    public Point2D getCentre(){
-//
-//    }
-//
-//    public double distanceToCentre(Figure f){
-//
-//    }
-//
-//    public boolean equals(Figure f){
-//
-//    }
+	/**
+	 * Méthode abstraite
+	 * Déplacement de la figure
+	 * @param dx déplacement selon l'axe des X
+	 * @param dy déplacement selon l'axe des Y
+	 * @return renvoie une référence vers la figure afin que l'on puisse déplacer une
+	 * figure en cascade  : <code>f.deplace(dx,dy).deplace(dx,dy)</code>
+	 * @see Point2D#deplace(double, double)
+	 */
+	public abstract Figure deplace(double dx, double dy);
+
+	/**
+	 * Affichage contenu
+	 * @return une chaine de caractère représentant la figure
+	 */
+	@Override
+	public abstract String toString();
+
+	/**
+	 * Test de contenu d'un point dans la figure
+	 * teste si le point passé en argument est contenu à l'intérieur de la figure
+	 * @param p : point candidat à la contenance
+	 * @return la contenance du point à l'intérieur de la figure
+	 */
+	public abstract boolean contient(Point2D p);
+
+	/**
+	 * Centre de la figure.
+	 * renvoie le centre de la figure
+	 * @return renvoie le point2D central de la figure
+	 */
+	public abstract Point2D getCentre();
+
+	/**
+	 * Aire couverte par la figure
+	 * @return renvoie l'aire couverte par la figure
+	 */
+	public abstract double aire();
+
+	/**
+	 * Distance entre les centres de la figure courante et d'une figure
+	 * passée en argument
+	 * @param f figure avec laquelle on calcule la distance entre les centres
+	 * @return la distance entre les points centraux des deux figures
+	 * @see #getCentre()
+	 * @see Point2D#distance(Point2D, Point2D)
+	 */
+	public abstract double distanceToCentreOf(Figure f);
+
+	/**
+	 * Test d'égalité de la figure courante avec une autre figure.
+	 * Cette méthode n'implémente que le test sur la nature des figures,
+	 * le test sur le contenu doit être réimplémenté dans chaque sous classe,
+	 * en utilisant cette méthode pour tester la nature des figures.
+	 * @param o la figure dont il faut comparer le contenu.
+	 * @return true si les deux figures sont de nature identique et qu'elles ont
+	 * le même contenu.
+	 */
+	@Override
+	public abstract boolean equals(Object o);
 }
