@@ -12,6 +12,7 @@ import static org.junit.Assert.assertFalse;
         import java.util.NoSuchElementException;
 
         import listes.Liste;
+        import listes.CollectionListe;
 
         import org.junit.After;
         import org.junit.AfterClass;
@@ -22,7 +23,8 @@ import static org.junit.Assert.assertFalse;
  * Created by bopang on 16/11/14.
  */
 public class simple {
-    private Liste<String> liste = null;
+    private CollectionListe<String> liste = null;
+    private CollectionListe<String> oliste = null;
 
     /**
      * Liste des éléments à insérer dans la liste
@@ -66,7 +68,8 @@ public class simple {
                 "New",
                 "World"
         };
-        liste = new Liste<String>();
+        liste = new CollectionListe<String>();
+        oliste = new CollectionListe<String>();
     }
 
     /**
@@ -76,7 +79,7 @@ public class simple {
     @After
     public void tearDown() throws Exception
     {
-        liste.efface();
+        liste.clear();
         liste = null;
     }
 
@@ -85,23 +88,22 @@ public class simple {
         String testName = new String("Liste<String>()");
         System.out.println(testName);
 
-        liste.ajoute(elements[0]);
-        liste.ajoute(elements[1]);
-        liste.ajoute(elements[2]);
-        liste.ajoute(elements[0]);
 
-        elements[3] = "Hello";
-
-
-        liste.ajoute(elements[0]);
-        liste.ajoute(elements[3]);
-        liste.ajoute(elements[0]);
-        liste.ajoute(elements[0]);
+        liste.add(elements[0]);
+        liste.add(elements[1]);
+        liste.add(elements[2]);
+        liste.add(elements[3]);
+        oliste.add(elements[0]);
+        oliste.add(elements[1]);
+        oliste.add(elements[2]);
+        oliste.add(elements[3]);
 
 
-        System.out.print(liste);
-        liste.supprimeTous(elements[0]);
-        System.out.print(liste);
+
+
+        System.out.print(this.liste.equals(oliste));
+//        liste.remove(elements[0]);
+//        System.out.print(liste);
 //        liste.supprimeTous(elements[3]);
 //        System.out.print(liste);
 

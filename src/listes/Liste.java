@@ -51,7 +51,7 @@ public class Liste<E> implements IListe<E>{
         }
     }
 
-    private int longueur(){
+    public int longueur(){
         int l = 0;
         if (this.estVide()) return l;
         ListeIterator it = this.iterator();

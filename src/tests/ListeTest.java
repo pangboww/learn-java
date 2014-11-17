@@ -397,7 +397,7 @@ public class ListeTest
 		assertTrue(testName + " supprTous elt null liste vide failed", liste.estVide());
 		assertFalse(testName + " supprTous elt null liste vide failed", result);
 
-		elements[2] = "Hello";
+		elements[2] = new String("Hello");
 		remplissage();
 		liste.ajoute("Hello"); // "Hello" not same as elements[0]
 		// liste = Hello -> Brave -> Hello -> World -> Hello
