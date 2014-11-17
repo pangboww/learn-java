@@ -1,6 +1,5 @@
 package figures;
 import points.Point2D;
-import points.Vecteur2D;
 
 /**
  * Created by bopang on 17/11/14.
@@ -35,15 +34,13 @@ public class Cercle extends AbstractFigure{
 
     @Override
     public Figure deplace(double dx, double dy) {
-
         this.centre.deplace(dx, dy);
-
         return this;
     }
 
     @Override
     public boolean contient(Point2D p) {
-        return false;
+        return this.centre.equals(p);
     }
 
     @Override
@@ -57,11 +54,23 @@ public class Cercle extends AbstractFigure{
 
     @Override
     public double aire() {
-        return 0;
+        return Math.PI*this.rayon*this.rayon;
     }
 
     @Override
     protected boolean equals(Figure f) {
-        return false;
+        if (!getClass().equals(f.getClass())) return false;
+        Cercle other = (Cercle) f;
+        return (this.centre.equals(other.getCentre())
+                && this.rayon == other.getRayon());
+    }
+
+    @Override
+    public String toString(){
+        double x = this.centre.getX();
+        double y = this.centre.getY();
+        double r = this.getRayon();
+        String result = String.format("Cercle : x = %2.1f y = %2.1f, r = %2.1f",x, y ,r);
+        return result;
     }
 }
